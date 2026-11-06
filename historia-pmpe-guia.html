@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>História de Pernambuco — Guia Soldado PMPE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#F2ECD8;
+    --parchment-deep:#E9E0C4;
+    --ink:#241C10;
+    --azulejo:#1C3D5E;
+    --azulejo-light:#2E5C86;
+    --azulejo-pale:#DCE8EF;
+    --gold:#C08E2E;
+    --brick:#A8451E;
+    --line:#c9bd9a;
+    --card:#FBF8EF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    margin:0 0 .4em 0;
+    letter-spacing:.2px;
+  }
+  a{color:inherit;}
+
+  /* ---- Azulejo tile pattern (signature motif) ---- */
+  .azulejo-strip{
+    height:14px;
+    background-image:
+      repeating-linear-gradient(45deg, var(--azulejo) 0 3px, transparent 3px 26px),
+      repeating-linear-gradient(-45deg, var(--gold) 0 3px, transparent 3px 26px);
+    background-color:var(--azulejo-pale);
+    border-top:2px solid var(--azulejo);
+    border-bottom:2px solid var(--azulejo);
+  }
+  .tile-bg{
+    background-color:var(--azulejo);
+    background-image:
+      radial-gradient(circle at 12px 12px, rgba(255,255,255,.10) 0 6px, transparent 7px),
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 24px 24px, 24px 24px, 24px 24px;
+  }
+
+  /* ---- Top nav ---- */
+  header.top{
+    position:sticky; top:0; z-index:50;
+    background:var(--azulejo);
+    color:#F2ECD8;
+    box-shadow:0 2px 10px rgba(0,0,0,.25);
+  }
+  .nav-wrap{
+    max-width:1100px; margin:0 auto; padding:10px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .brand{
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.15rem;
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand .badge{
+    width:28px;height:28px;border-radius:50%;
+    background:var(--gold); display:inline-block;
+    box-shadow:inset 0 0 0 2px var(--azulejo);
+  }
+  nav.tabs{display:flex; gap:6px; flex-wrap:wrap;}
+  nav.tabs button{
+    background:transparent; border:1px solid rgba(242,236,216,.35);
+    color:#F2ECD8; padding:8px 14px; border-radius:20px;
+    font-family:'Source Sans 3',sans-serif; font-weight:600; font-size:.85rem;
+    cursor:pointer; transition:.2s;
+  }
+  nav.tabs button:hover{background:rgba(242,236,216,.12);}
+  nav.tabs button.active{background:var(--gold); color:var(--azulejo); border-color:var(--gold);}
+
+  /* ---- Hero ---- */
+  .hero{
+    color:#F2ECD8;
+    padding:56px 20px 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-inner{max-width:1100px; margin:0 auto; position:relative; z-index:2;}
+  .eyebrow{
+    font-size:.75rem; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--gold); font-weight:700; margin-bottom:14px; display:inline-block;
+  }
+  .hero h1{font-size:clamp(2rem,5vw,3.2rem); max-width:760px; color:#fff;}
+  .hero p.lead{max-width:620px; font-size:1.05rem; color:#E7E0C8; margin-top:10px;}
+  .hero-tags{display:flex; gap:10px; flex-wrap:wrap; margin-top:26px;}
+  .hero-tags span{
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.25);
+    padding:6px 14px; border-radius:20px; font-size:.82rem;
+  }
+  .hero-cta{margin-top:30px; display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:12px 22px; border-radius:6px;
+    font-weight:700; text-decoration:none; cursor:pointer; border:none;
+    font-family:'Source Sans 3',sans-serif; font-size:.95rem;
+  }
+  .btn-gold{background:var(--gold); color:var(--azulejo);}
+  .btn-gold:hover{background:#d6a446;}
+  .btn-outline{background:transparent; border:1px solid rgba(255,255,255,.5); color:#fff;}
+  .btn-outline:hover{background:rgba(255,255,255,.1);}
+
+  main{max-width:1100px; margin:0 auto; padding:50px 20px 100px;}
+  section.view{display:none;}
+  section.view.active{display:block; animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .section-head{margin-bottom:28px;}
+  .section-head .kicker{color:var(--brick); font-weight:700; font-size:.78rem; text-transform:uppercase; letter-spacing:1.5px;}
+  .section-head h2{font-size:1.9rem; color:var(--azulejo);}
+  .section-head p{max-width:680px; color:#4a4130;}
+
+  /* ---- Timeline ---- */
+  .timeline{
+    position:relative; margin-top:40px; padding-left:26px;
+    border-left:3px solid var(--azulejo);
+  }
+  .t-item{position:relative; padding:0 0 34px 26px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{
+    content:""; position:absolute; left:-38px; top:2px;
+    width:16px; height:16px; border-radius:50%;
+    background:var(--gold); border:3px solid var(--azulejo);
+  }
+  .t-year{
+    font-family:'Fraunces', serif; font-weight:700; color:var(--azulejo);
+    font-size:1.3rem;
+  }
+  .t-item h4{margin:2px 0 6px; color:var(--brick); font-size:1.05rem;}
+  .t-item p{margin:0; color:#4a4130; font-size:.95rem; max-width:640px;}
+
+  /* ---- Accordion (content) ---- */
+  .acc{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    margin-bottom:14px; overflow:hidden;
+  }
+  .acc-head{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:16px 20px; cursor:pointer; user-select:none;
+  }
+  .acc-head:hover{background:var(--parchment-deep);}
+  .acc-num{
+    font-family:'Fraunces', serif; color:var(--gold); font-weight:700; font-size:1rem; min-width:26px;
+  }
+  .acc-title{flex:1; font-family:'Fraunces', serif; font-weight:600; font-size:1.12rem; color:var(--azulejo);}
+  .acc-chev{
+    width:22px;height:22px; border-radius:50%; border:1.5px solid var(--azulejo);
+    display:flex; align-items:center; justify-content:center; font-size:.8rem; color:var(--azulejo);
+    transition:transform .25s; flex-shrink:0;
+  }
+  .acc.open .acc-chev{transform:rotate(45deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .acc-body-inner{padding:0 20px 20px 66px; color:#3a3222; font-size:.95rem;}
+  .acc-body-inner ul{margin:8px 0; padding-left:20px;}
+  .acc-body-inner li{margin-bottom:6px;}
+  .acc-body-inner .highlight{
+    background:var(--azulejo-pale); border-left:3px solid var(--azulejo);
+    padding:10px 14px; border-radius:4px; margin:12px 0; font-size:.9rem;
+  }
+  .acc-body-inner .aocp-tip{
+    background:#FBEFE0; border-left:3px solid var(--gold);
+    padding:10px 14px; border-radius:4px; margin:12px 0; font-size:.87rem;
+  }
+  .acc-body-inner .aocp-tip b{color:var(--brick);}
+
+  /* ---- Quiz ---- */
+  .quiz-shell{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:0; overflow:hidden;
+  }
+  .quiz-top{
+    background:var(--azulejo); color:#F2ECD8; padding:18px 24px;
+    display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  .quiz-top .banca{
+    background:var(--gold); color:var(--azulejo); font-weight:700; font-size:.72rem;
+    padding:4px 10px; border-radius:20px; letter-spacing:1px; text-transform:uppercase;
+  }
+  .progress-bar{
+    background:rgba(255,255,255,.2); height:8px; border-radius:6px; overflow:hidden; width:220px;
+  }
+  .progress-fill{background:var(--gold); height:100%; width:0%; transition:width .3s;}
+  .quiz-body{padding:26px 26px 30px;}
+  .q-count{color:var(--brick); font-weight:700; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;}
+  .q-text{font-family:'Fraunces', serif; font-size:1.15rem; color:var(--ink); margin-bottom:20px;}
+  .opt{
+    display:flex; gap:12px; align-items:flex-start; padding:12px 14px; border:1.5px solid var(--line);
+    border-radius:8px; margin-bottom:10px; cursor:pointer; transition:.15s;
+    background:#fff;
+  }
+  .opt:hover{border-color:var(--azulejo-light);}
+  .opt .letter{
+    width:26px; height:26px; border-radius:50%; border:1.5px solid var(--azulejo);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.82rem;
+    color:var(--azulejo); flex-shrink:0;
+  }
+  .opt.selected{border-color:var(--azulejo); background:var(--azulejo-pale);}
+  .opt.correct{border-color:#2E7D46; background:#E7F5EA;}
+  .opt.correct .letter{background:#2E7D46; color:#fff; border-color:#2E7D46;}
+  .opt.incorrect{border-color:var(--brick); background:#FBE9E2;}
+  .opt.incorrect .letter{background:var(--brick); color:#fff; border-color:var(--brick);}
+  .opt.disabled{cursor:default;}
+  .explain{
+    margin-top:16px; padding:14px 16px; border-radius:8px; font-size:.9rem;
+    background:#FBEFE0; border-left:4px solid var(--gold); display:none;
+  }
+  .explain.show{display:block;}
+  .quiz-actions{display:flex; justify-content:space-between; align-items:center; margin-top:22px; gap:10px; flex-wrap:wrap;}
+  .quiz-actions .btn{background:var(--azulejo); color:#fff;}
+  .quiz-actions .btn:disabled{opacity:.4; cursor:not-allowed;}
+  .quiz-actions .btn:not(:disabled):hover{background:var(--azulejo-light);}
+
+  .result-screen{padding:40px 26px; text-align:center;}
+  .result-score{font-family:'Fraunces', serif; font-size:3rem; color:var(--azulejo); font-weight:700;}
+  .result-msg{color:#4a4130; margin:10px 0 26px;}
+  .review-list{text-align:left; max-width:700px; margin:0 auto;}
+  .review-item{border-bottom:1px solid var(--line); padding:12px 4px; font-size:.9rem;}
+  .review-item .ok{color:#2E7D46; font-weight:700;}
+  .review-item .no{color:var(--brick); font-weight:700;}
+
+  footer{
+    text-align:center; padding:26px 20px; color:#6a5f45; font-size:.8rem;
+    border-top:1px solid var(--line);
+  }
+  @media (max-width:640px){
+    .acc-body-inner{padding-left:20px;}
+    .nav-wrap{justify-content:center;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="nav-wrap">
+    <div class="brand"><span class="badge"></span> Em Busca da Nomeação · PMPE</div>
+    <nav class="tabs">
+      <button data-view="v-inicio" class="active">Início</button>
+      <button data-view="v-linha">Linha do Tempo</button>
+      <button data-view="v-conteudo">Conteúdo</button>
+      <button data-view="v-quiz">Simulado AOCP</button>
+    </nav>
+  </div>
+</header>
+
+<div class="hero tile-bg">
+  <div class="hero-inner">
+    <span class="eyebrow">Soldado · PMPE · Pré-edital</span>
+    <h1>História de Pernambuco, de Duarte Coelho ao frevo</h1>
+    <p class="lead">Guia interativo com linha do tempo, resumos por tópico e simulado com questões
+    no estilo da banca <strong>AOCP</strong> — a banca historicamente responsável pelos concursos da PMPE.</p>
+    <div class="hero-tags">
+      <span>Ocupação e Colonização</span>
+      <span>Insurreições e Guerras</span>
+      <span>Pernambuco e a República</span>
+      <span>Cultura e Herança Afro</span>
+    </div>
+    <div class="hero-cta">
+      <button class="btn btn-gold" onclick="goTo('v-linha')">Ver linha do tempo →</button>
+      <button class="btn btn-outline" onclick="goTo('v-quiz')">Ir direto ao simulado</button>
+    </div>
+  </div>
+</div>
+<div class="azulejo-strip"></div>
+
+<main>
+
+  <!-- ================= INÍCIO ================= -->
+  <section id="v-inicio" class="view active">
+    <div class="section-head">
+      <span class="kicker">Como usar este guia</span>
+      <h2>Três frentes de estudo</h2>
+      <p>O conteúdo programático oficial cobre da colonização até a herança cultural afrodescendente.
+      Este guia organiza tudo em três camadas — visualize a cronologia, estude os resumos e teste-se no simulado.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin-top:10px;">
+      <div class="acc" style="cursor:pointer" onclick="goTo('v-linha')">
+        <div class="acc-head" style="cursor:pointer">
+          <span class="acc-num">01</span>
+          <span class="acc-title">Linha do Tempo</span>
+        </div>
+        <div class="acc-body-inner" style="padding-top:0; max-height:none; padding-left:20px;">
+          De 1501 (chegada de Gonçalo Coelho) até 1894 (Revolta da Armada), com todas as datas cobradas em prova.
+        </div>
+      </div>
+      <div class="acc" style="cursor:pointer" onclick="goTo('v-conteudo')">
+        <div class="acc-head" style="cursor:pointer">
+          <span class="acc-num">02</span>
+          <span class="acc-title">Conteúdo por Tópico</span>
+        </div>
+        <div class="acc-body-inner" style="padding-top:0; max-height:none; padding-left:20px;">
+          13 blocos de estudo, iguais ao sumário oficial, com destaques e dicas de pegadinha de prova.
+        </div>
+      </div>
+      <div class="acc" style="cursor:pointer" onclick="goTo('v-quiz')">
+        <div class="acc-head" style="cursor:pointer">
+          <span class="acc-num">03</span>
+          <span class="acc-title">Simulado estilo AOCP</span>
+        </div>
+        <div class="acc-body-inner" style="padding-top:0; max-height:none; padding-left:20px;">
+          60 questões objetivas com gabarito comentado, no formato característico da banca AOCP.
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-body-inner aocp-tip" style="padding-left:20px; margin-top:30px; max-height:none;">
+      <b>Sobre a banca AOCP:</b> costuma cobrar comandos diretos ("assinale a alternativa correta"),
+      valoriza nomes próprios, datas exatas e relações de causa e consequência (ex.: por que a Guerra
+      dos Mascates não teve caráter social, ou por que Nassau deixou o governo). Também gosta de misturar
+      duas informações verdadeiras de contextos diferentes na mesma alternativa para confundir o candidato —
+      fique atento a esse padrão nas questões do simulado.
+    </div>
+  </section>
+
+  <!-- ================= LINHA DO TEMPO ================= -->
+  <section id="v-linha" class="view">
+    <div class="section-head">
+      <span class="kicker">Cronologia</span>
+      <h2>Linha do Tempo de Pernambuco</h2>
+      <p>Os marcos que mais aparecem em prova, em ordem cronológica.</p>
+    </div>
+
+    <div class="timeline" id="timelineList"></div>
+  </section>
+
+  <!-- ================= CONTEÚDO ================= -->
+  <section id="v-conteudo" class="view">
+    <div class="section-head">
+      <span class="kicker">Conteúdo programático</span>
+      <h2>Resumo por Tópico</h2>
+      <p>Clique em cada bloco para expandir. Os quadros amarelos trazem dicas específicas de prova.</p>
+    </div>
+    <div id="accContainer"></div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section id="v-quiz" class="view">
+    <div class="section-head">
+      <span class="kicker">Treino</span>
+      <h2>Simulado — estilo AOCP</h2>
+      <p>60 questões objetivas de múltipla escolha (A–D), cobrindo todo o conteúdo programático.</p>
+    </div>
+
+    <div class="quiz-shell">
+      <div class="quiz-top">
+        <span class="banca">Banca AOCP</span>
+        <div style="flex:1; display:flex; align-items:center; gap:12px;">
+          <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+          <span id="progText" style="font-size:.82rem;">0/60</span>
+        </div>
+        <span id="scoreLive" style="font-weight:700; font-size:.9rem;">Acertos: 0</span>
+      </div>
+
+      <div class="quiz-body" id="quizBody"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Guia de estudos criado a partir do material "PMPE — História — Soldado — Pré-edital" (EBN Cursos), reorganizado para fins de revisão.
+</footer>
+
+<script>
+/* ============ NAV ============ */
+const tabButtons = document.querySelectorAll('nav.tabs button');
+function goTo(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  tabButtons.forEach(b=>b.classList.toggle('active', b.dataset.view===id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+tabButtons.forEach(b=>b.addEventListener('click', ()=>goTo(b.dataset.view)));
+
+/* ============ TIMELINE DATA ============ */
+const timeline = [
+  {y:"1501", t:"Primeira expedição europeia", d:"Gonçalo Coelho chega ao litoral pernambucano, acompanhado de Américo Vespúcio."},
+  {y:"1534", t:"Carta de doação a Duarte Coelho", d:"D. João III concede a Capitania de Pernambuco (Nova Lusitânia) a Duarte Coelho."},
+  {y:"1535–1537", t:"Fundação de Olinda e Recife", d:"Duarte Coelho chega em 1535; Olinda vira Vila em 1537, mesmo ano da fundação de Recife."},
+  {y:"1630", t:"Invasão holandesa", d:"Holandeses invadem Recife e Olinda; Olinda é incendiada."},
+  {y:"1637–1644", t:"Governo de Maurício de Nassau", d:"Modernização urbana do Recife, redução de tributos e liberdade religiosa."},
+  {y:"1645–1654", t:"Insurreição Pernambucana", d:"Batalha do Monte das Tabocas (1645) e Batalhas dos Guararapes (1648 e 1649) expulsam os holandeses; fim em 1654 com o Tratado de Taborda."},
+  {y:"1709–1714", t:"Guerra dos Mascates", d:"Disputa de poder entre Olinda (poder político) e Recife (poder econômico). Em 1712, Recife torna-se sede administrativa."},
+  {y:"1817", t:"Revolução Pernambucana", d:"Revolução dos Padres: proclamação de uma república em 6 de março, reprimida por Luís do Rego Barreto."},
+  {y:"1824–1825", t:"Confederação do Equador", d:"Movimento separatista contra a centralização da Constituição de 1824; Frei Caneca é executado em 1825."},
+  {y:"1832–1835", t:"Guerra dos Cabanos (Cabanada)", d:"Revolta liderada por Vicente de Paula, em PE e AL, defendendo a volta de D. Pedro I ao trono."},
+  {y:"1848–1850", t:"Revolução Praieira", d:"Movimento liberal ligado à sociedade secreta 'Praia', reprimido pelas forças imperiais em 1850."},
+  {y:"1889", t:"Proclamação da República", d:"Pernambuco adere rapidamente ao novo regime republicano."},
+  {y:"1893–1894", t:"Revolta da Armada", d:"Pernambuco tem envolvimento nos conflitos contra o governo republicano recém-instaurado."},
+];
+const tlEl = document.getElementById('timelineList');
+timeline.forEach(item=>{
+  const div = document.createElement('div');
+  div.className = 't-item';
+  div.innerHTML = `<div class="t-year">${item.y}</div><h4>${item.t}</h4><p>${item.d}</p>`;
+  tlEl.appendChild(div);
+});
+
+/* ============ ACCORDION CONTENT ============ */
+const topics = [
+  {
+    title:"Ocupação e Colonização — Capitanias Hereditárias e Duarte Coelho",
+    body:`
+      <ul>
+        <li>1501: expedição de Gonçalo Coelho, com Américo Vespúcio, explora o litoral pernambucano.</li>
+        <li>1504: Fernando de Noronha torna-se a 1ª capitania hereditária do Brasil.</li>
+        <li><b>Duarte Coelho</b> recebe a carta de doação da Capitania de Pernambuco em 10/03/1534 e chega ao Brasil em 09/03/1535, batizando-a de <b>Nova Lusitânia</b>.</li>
+        <li>1535: fundação do povoado que originou Olinda; 1537: Olinda vira Vila e, no mesmo ano, é fundada a cidade de Recife.</li>
+        <li>Povos indígenas locais: caetés, cariris e tabajaras.</li>
+        <li>Ao norte, a Capitania de Itamaracá pertencia a Pero Lopes de Sousa (doada em 1534).</li>
+      </ul>
+      <div class="highlight">Duarte Coelho era filho bastardo do navegador Gonçalo Coelho e morreu em 1554; a capitania ficou sob responsabilidade da viúva, Brites de Albuquerque, até 1560.</div>
+      <div class="aocp-tip"><b>Pegadinha comum:</b> não confundir a data da doação da capitania (1534) com a chegada efetiva de Duarte Coelho ao Brasil (1535) nem com a fundação de Olinda como Vila (1537).</div>
+    `
+  },
+  {
+    title:"A Importância do Açúcar para a Economia Local",
+    body:`
+      <ul>
+        <li>Pernambuco foi a capitania mais rica do período colonial, com produção em regime de <b>plantation</b> (monocultura voltada à exportação).</li>
+        <li>O <b>pacto colonial</b> obrigava a colônia a comercializar exclusivamente com Portugal, que lucrava tanto na venda de escravizados quanto na compra do açúcar.</li>
+        <li>O <b>feitor-mor</b> era o funcionário de confiança do senhor de engenho, responsável por administrar a produção e delegar tarefas.</li>
+        <li>A usina mais antiga em funcionamento no Brasil é a <b>Petribu</b>, moendo desde 1729.</li>
+        <li>Polos doceiros regionais: Pesqueira (Museu do Doce), Bezerros (nego-bom e mariola), Santa Cruz do Capibaribe (Poço Fundo) e Afrânio (doce de leite em barra).</li>
+      </ul>
+      <div class="aocp-tip"><b>Fixar:</b> mão de obra inicialmente indígena escravizada, substituída por mão de obra africana escravizada devido ao comércio lucrativo com colônias portuguesas na África.</div>
+    `
+  },
+  {
+    title:"Formação de Olinda e Recife",
+    body:`
+      <ul>
+        <li>Olinda foi incendiada durante a dominação holandesa (1630) e só recuperou o status de sede oficial em 1654 — mesmo assim, os governadores passaram a residir no Recife.</li>
+        <li>No início do século XIX, com o Seminário Diocesano e o curso jurídico (1828), Olinda se tornou uma cidade de estudantes.</li>
+        <li>Coube ao sargento-mor <b>Bernardo Vieira de Melo</b> dar, no Senado da Câmara em 1710, o chamado "primeiro grito de independência" do país.</li>
+        <li>Recife nasce por volta de 1535, como porto natural ligado a Olinda; seu nome deriva dos arrecifes do litoral.</li>
+        <li>A cidade viveu ~24 anos sob domínio da Companhia Holandesa das Índias Ocidentais, com Maurício de Nassau como governador-geral.</li>
+      </ul>
+      <div class="highlight">A Insurreição Pernambucana começa com a Batalha do Monte das Tabocas (1645) e se decide nas Batalhas dos Guararapes (1648 e 1649).</div>
+    `
+  },
+  {
+    title:"A Presença Holandesa e o Governo de Maurício de Nassau",
+    body:`
+      <ul>
+        <li>João Maurício de Nassau chega em 1637, enviado pela Companhia das Índias Ocidentais; governa por sete anos (1637–1644).</li>
+        <li>Realizações: pontes, diques, drenagem de pântanos e canais; aliança política com senhores de engenho; redução de tributos; liberdade religiosa aos cristãos; criação do Jardim Botânico, Museu Natural e Zoológico no Recife.</li>
+        <li>Fim do governo: no início da década de 1640, a Companhia das Índias Ocidentais aumenta impostos e cobra dívidas atrasadas, medidas que Nassau não aceita — ele deixa o cargo em 1644.</li>
+        <li>Sem ele, a relação entre holandeses e senhores de engenho se deteriora, alimentando os movimentos que resultariam na Insurreição Pernambucana de 1654.</li>
+      </ul>
+      <div class="aocp-tip"><b>Atenção:</b> os aspectos positivos do domínio holandês estão ligados diretamente à figura de Nassau, e não à Companhia das Índias Ocidentais, cujo interesse era o lucro.</div>
+    `
+  },
+  {
+    title:"Movimentos de Resistência e Emancipacionistas — Formação de Quilombos",
+    body:`
+      <ul>
+        <li>Quilombos: comunidades de africanos escravizados fugidos, que também recebiam índios e brancos livres, vivendo em liberdade.</li>
+        <li>Principais quilombos de Pernambuco: <b>Quilombo do Xambá</b> (Portão do Gelo, Olinda — único quilombo urbano reconhecido no estado), Quilombo das Onze Negras (Ilha de Mercês, Suape), Quilombo do Ibura, Quilombo de Nazareth e Quilombo de Catucá.</li>
+      </ul>
+    `
+  },
+  {
+    title:"Insurreição Pernambucana (1654)",
+    body:`
+      <ul>
+        <li>Conflito de portugueses contra holandeses, iniciado em maio de 1645, após o regresso de Maurício de Nassau à Holanda.</li>
+        <li>Causas: aumento de impostos e cobranças da Companhia das Índias Ocidentais, além de rivalidade religiosa (holandeses protestantes/judeus x portugueses católicos).</li>
+        <li>Líderes: <b>João Fernandes Vieira</b>, <b>André Vidal de Negreiros</b> e <b>Henrique Dias</b> (africano liberto); apoio decisivo de <b>Antônio Felipe Camarão (Poti)</b>, índio potiguar.</li>
+        <li>Batalhas-chave: Monte das Tabocas (1645) e Guararapes (1648 e 1649).</li>
+        <li>Fim em 1654 com o <b>Tratado de Taborda</b>, que formaliza a rendição holandesa — nesse momento a retomada final contou também com Francisco Barreto de Meneses.</li>
+      </ul>
+      <div class="aocp-tip"><b>Pegadinha comum:</b> a AOCP gosta de trocar os nomes dos líderes entre si (ex.: atribuir Guararapes a Bernardo Vieira de Melo, que na verdade está ligado à Guerra dos Mascates e ao "grito de independência" de 1710).</div>
+    `
+  },
+  {
+    title:"Guerra dos Mascates (1710)",
+    body:`
+      <ul>
+        <li>Conflito armado entre 1709 e 1714, envolvendo senhores de engenho de Olinda x comerciantes portugueses do Recife ("mascates").</li>
+        <li>Foi uma disputa pelo <b>poder político</b> (Olinda) contra o <b>poder econômico</b> (Recife) — <b>sem caráter de reivindicação social</b>.</li>
+        <li>1710: sob liderança de <b>Bernardo Vieira de Melo</b> e do capitão-mor <b>Pedro Ribeiro da Silva</b>, os senhores de engenho invadem Recife e destroem o Pelourinho.</li>
+        <li>1711: os mascates se reagrupam e invadem Olinda; a metrópole envia novo governador e tropas.</li>
+        <li>1712: Recife torna-se a sede administrativa oficial de Pernambuco.</li>
+      </ul>
+      <div class="aocp-tip"><b>Fixar:</b> "sem qualquer reivindicação social" é a expressão-chave que a banca costuma cobrar para diferenciar essa guerra de outras revoltas nordestinas.</div>
+    `
+  },
+  {
+    title:"Revolução Pernambucana (1817)",
+    body:`
+      <ul>
+        <li>Também chamada <b>Revolução dos Padres</b>, foi um movimento separatista e um dos primeiros de caráter liberal e emancipacionista no Brasil, inspirado no Iluminismo.</li>
+        <li>Contexto: chegada da corte portuguesa ao Brasil em 1808 (transferência após invasão napoleônica), gerando agitação política.</li>
+        <li>Líderes: <b>Domingos José Martins</b>, <b>Padre Roma</b> e <b>João de Barros Lima (Leão Coroado)</b>.</li>
+        <li>Proclamada em <b>6 de março de 1817</b>, com constituição liberal inspirada na Revolução Francesa.</li>
+        <li>Reprimida pelas tropas de <b>Luís do Rego Barreto</b>; líderes presos, executados ou exilados.</li>
+      </ul>
+    `
+  },
+  {
+    title:"Confederação do Equador (1824)",
+    body:`
+      <ul>
+        <li>Movimento separatista do período joanino/imperial, envolvendo Pernambuco, Paraíba, Rio Grande do Norte e Ceará.</li>
+        <li>Causas: centralização de poder pela Constituição de 1824 (outorgada por D. Pedro I) e dissolução da Assembleia Constituinte em 1823.</li>
+        <li>Líderes: <b>Frei Caneca</b>, <b>Cipriano Barata</b> e <b>Padre Mororó</b>.</li>
+        <li>Proclamada em <b>2 de julho de 1824</b>.</li>
+        <li>Reprimida pelo brigadeiro Antônio de Sampaio e pelo Marquês de Barbacena; <b>Frei Caneca é capturado e executado em 1825</b>.</li>
+      </ul>
+    `
+  },
+  {
+    title:"Guerra dos Cabanos (1835)",
+    body:`
+      <ul>
+        <li>Também chamada <b>Cabanada</b>, ocorreu entre 1832 e 1835, em Pernambuco e Alagoas, durante o Período Regencial.</li>
+        <li>Participantes: índios e escravos foragidos, chamados "cabanos" por viverem em cabanas às margens de rios.</li>
+        <li>Líder: <b>Vicente de Paula</b>.</li>
+        <li>Objetivo principal: <b>restituição do poder de D. Pedro I</b>, que havia abdicado em 1831, além da defesa das terras nas florestas contra proprietários e madeireiros.</li>
+        <li>1835: forças imperiais (cerca de 4 mil soldados) reprimem o movimento; Vicente de Paula foge; presos são anistiados.</li>
+      </ul>
+      <div class="aocp-tip"><b>Não confundir:</b> a Cabanada de Pernambuco/Alagoas (a favor da volta de D. Pedro I) é diferente da Cabanagem do Pará (1835–1840).</div>
+    `
+  },
+  {
+    title:"Revolução Praieira (1848)",
+    body:`
+      <ul>
+        <li>Movimento político e social de 1848, centrado em Pernambuco, com forte influência do liberalismo e de ideias republicanas.</li>
+        <li>Nome derivado da sociedade secreta <b>"Praia"</b> (ou "Praieira").</li>
+        <li>Causas: descontentamento com a centralização monárquica, desigualdades sociais e busca por maior autonomia provincial.</li>
+        <li>Reprimida pelas forças imperiais em <b>1850</b>; líderes presos e alguns executados.</li>
+      </ul>
+    `
+  },
+  {
+    title:"Pernambuco e a República",
+    body:`
+      <ul>
+        <li>Pernambuco foi um dos primeiros estados a aderir à <b>Proclamação da República (1889)</b>, com apoio de militares e intelectuais.</li>
+        <li>Participação na <b>Revolta da Armada (1893–1894)</b>, movimento contra o governo republicano, com reflexos no Recife.</li>
+        <li>Fim do século XIX / início do XX: <b>declínio do ciclo do açúcar</b>, impactando a economia e a estrutura social do estado.</li>
+      </ul>
+    `
+  },
+  {
+    title:"Manifestações da Cultura Popular Pernambucana",
+    body:`
+      <ul>
+        <li><b>Frevo:</b> estilo musical e dança nascido no Recife no final do século XIX, mistura de influências africanas, europeias e indígenas, acompanhado por orquestras de metais no Carnaval.</li>
+        <li><b>Maracatu:</b> tradição afro-brasileira; <b>Maracatu Nação</b> (representação nobre e ritualística) e <b>Maracatu Rural</b> (mais popular, em áreas rurais).</li>
+        <li><b>Culinária:</b> feijoada, buchada de bode, carne de sol, bolo de rolo, tapioca e acarajé (de origem afro-brasileira).</li>
+        <li><b>Festas populares:</b> Carnaval de Pernambuco, com destaque para o <b>Galo da Madrugada</b>; São João, com festas juninas e quadrilhas.</li>
+      </ul>
+    `
+  },
+  {
+    title:"Herança Afrodescendente em Pernambuco",
+    body:`
+      <ul>
+        <li>Religiões de matriz africana: <b>Candomblé</b> e <b>Umbanda</b>, com terreiros presentes na região.</li>
+        <li><b>Maracatu</b>: expressão que representa simbolicamente a nobreza negra.</li>
+        <li><b>Capoeira</b>: arte marcial/dança de raízes africanas, historicamente forma de resistência à escravidão.</li>
+        <li>Influência na culinária (feijoada, acarajé, vatapá) e nas festas populares (frevo, desfiles de maracatu).</li>
+        <li><b>Quilombos</b>: comunidades remanescentes que preservam tradições culturais, práticas agrícolas e organização social até hoje.</li>
+      </ul>
+    `
+  },
+];
+
+const accContainer = document.getElementById('accContainer');
+topics.forEach((topic, i)=>{
+  const acc = document.createElement('div');
+  acc.className = 'acc';
+  acc.innerHTML = `
+    <div class="acc-head">
+      <span class="acc-num">${String(i+1).padStart(2,'0')}</span>
+      <span class="acc-title">${topic.title}</span>
+      <span class="acc-chev">+</span>
+    </div>
+    <div class="acc-body"><div class="acc-body-inner">${topic.body}</div></div>
+  `;
+  const head = acc.querySelector('.acc-head');
+  const body = acc.querySelector('.acc-body');
+  head.addEventListener('click', ()=>{
+    const isOpen = acc.classList.contains('open');
+    acc.classList.toggle('open');
+    body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
+  });
+  accContainer.appendChild(acc);
+});
+
+/* ============ QUIZ DATA ============ */
+const quiz = [
+  {
+    q:"Duarte Coelho recebeu a carta de doação da Capitania de Pernambuco, denominada Nova Lusitânia, em:",
+    opts:["9 de março de 1535","10 de março de 1534","7 de agosto de 1554","1537, ano da fundação de Olinda como Vila"],
+    correct:1,
+    exp:"A carta de doação foi recebida em 10/03/1534. Duarte Coelho só chegou ao Brasil em 09/03/1535."
+  },
+  {
+    q:"Sobre a fundação de Olinda e Recife, é correto afirmar que:",
+    opts:[
+      "Recife foi fundada antes de Olinda, ainda em 1530.",
+      "Olinda tornou-se Vila e Recife foi fundada, ambos no mesmo ano de 1537.",
+      "Recife nasceu apenas após a expulsão dos holandeses, em 1654.",
+      "Olinda e Recife foram fundadas por Maurício de Nassau."
+    ],
+    correct:1,
+    exp:"Em 1537, Olinda passou à condição de Vila e, no mesmo ano, foi fundada a cidade de Recife."
+  },
+  {
+    q:"O sistema de grandes fazendas de monocultura, voltadas ao mercado externo, característico da economia açucareira pernambucana, era conhecido como:",
+    opts:["Feitoria","Sesmaria","Plantation","Latifúndio de subsistência"],
+    correct:2,
+    exp:"O termo 'plantation' designa as grandes propriedades de monocultura destinadas à exportação."
+  },
+  {
+    q:"O empregado de confiança do senhor de engenho, responsável por delegar tarefas e administrar a produção do açúcar, era denominado:",
+    opts:["Capitão-mor","Feitor-mor","Donatário","Sargento-mor"],
+    correct:1,
+    exp:"O feitor-mor era o assalariado de confiança encarregado da administração da produção açucareira."
+  },
+  {
+    q:"A usina mais antiga do Brasil ainda em funcionamento, moendo desde 1729, e responsável pelo primeiro açúcar demerara comercializado no país, é a:",
+    opts:["Usina Trapiche","Usina Petribu","Usina Central Barreiros","Usina São José"],
+    correct:1,
+    exp:"A Usina Petribu, em Pernambuco, é a mais antiga em funcionamento no Brasil, desde 1729."
+  },
+  {
+    q:"O conde holandês responsável pela modernização urbanística do Recife entre 1637 e 1644, incluindo a construção de pontes, canais e a redução de tributos aos senhores de engenho, foi:",
+    opts:["João Fernandes Vieira","Maurício de Nassau","Francisco Barreto de Meneses","André Vidal de Negreiros"],
+    correct:1,
+    exp:"João Maurício de Nassau governou a região sob domínio holandês entre 1637 e 1644."
+  },
+  {
+    q:"A saída de Maurício de Nassau do governo, em 1644, foi motivada principalmente por:",
+    opts:[
+      "Ordem direta do rei de Portugal para que ele deixasse o cargo.",
+      "Discordância de Nassau quanto ao aumento de impostos e à cobrança de dívidas atrasadas exigidos pela Companhia das Índias Ocidentais.",
+      "Sua derrota na Batalha dos Guararapes.",
+      "A assinatura do Tratado de Taborda."
+    ],
+    correct:1,
+    exp:"Nassau discordou das medidas de aumento de lucro impostas pela Companhia das Índias Ocidentais e deixou o cargo em 1644."
+  },
+  {
+    q:"É o único quilombo urbano reconhecido em Pernambuco, localizado no Portão do Gelo, em Olinda:",
+    opts:["Quilombo do Ibura","Quilombo de Catucá","Quilombo do Xambá","Quilombo de Nazareth"],
+    correct:2,
+    exp:"O Quilombo do Xambá, em Olinda, é o único quilombo urbano reconhecido no estado."
+  },
+  {
+    q:"Na Insurreição Pernambucana (1645–1654), o índio potiguar que auxiliou as tropas luso-brasileiras à frente de centenas de índios era conhecido como:",
+    opts:["Poti (Antônio Felipe Camarão)","Vicente de Paula","Henrique Dias","Frei Caneca"],
+    correct:0,
+    exp:"Antônio Felipe Camarão, conhecido como Poti, liderou índios potiguares em apoio às tropas contra os holandeses."
+  },
+  {
+    q:"O tratado que formalizou a rendição holandesa e encerrou a Insurreição Pernambucana, em 1654, foi o:",
+    opts:["Tratado de Tordesilhas","Tratado de Taborda","Tratado de Madri","Tratado do Recife"],
+    correct:1,
+    exp:"O Tratado de Taborda, de 1654, formalizou a rendição holandesa em Pernambuco."
+  },
+  {
+    q:"Sobre a Guerra dos Mascates (1709–1714), assinale a alternativa correta:",
+    opts:[
+      "Foi um conflito com forte apelo de reivindicação social das camadas populares.",
+      "Envolveu disputa entre Olinda, detentora do poder político, e Recife, detentora do poder econômico.",
+      "Resultou na permanência definitiva de Olinda como sede administrativa da capitania.",
+      "Foi liderada exclusivamente pelos comerciantes portugueses do Recife."
+    ],
+    correct:1,
+    exp:"Tratou-se de disputa pelo poder político (Olinda) x poder econômico (Recife), sem caráter de reivindicação social."
+  },
+  {
+    q:"Em decorrência da Guerra dos Mascates, no ano de 1712:",
+    opts:[
+      "Olinda torna-se definitivamente a sede administrativa de Pernambuco.",
+      "Recife torna-se a sede administrativa de Pernambuco.",
+      "Ocorre a Insurreição Pernambucana.",
+      "É assinado o Tratado de Taborda."
+    ],
+    correct:1,
+    exp:"Em 1712, Recife passou a ser a sede administrativa oficial da capitania de Pernambuco."
+  },
+  {
+    q:"A Revolução Pernambucana de 1817, também conhecida como Revolução dos Padres, teve entre seus líderes:",
+    opts:[
+      "Frei Caneca e Cipriano Barata",
+      "Domingos José Martins e Padre Roma",
+      "Vicente de Paula e Padre Mororó",
+      "João Fernandes Vieira e Henrique Dias"
+    ],
+    correct:1,
+    exp:"Domingos José Martins, Padre Roma e João de Barros Lima (Leão Coroado) lideraram a Revolução Pernambucana de 1817."
+  },
+  {
+    q:"A Revolução Pernambucana de 1817 foi proclamada em:",
+    opts:["7 de setembro de 1822","2 de julho de 1824","6 de março de 1817","15 de novembro de 1889"],
+    correct:2,
+    exp:"A revolução foi proclamada em 6 de março de 1817, declarando a instauração de uma república."
+  },
+  {
+    q:"A Confederação do Equador (1824) teve como uma de suas principais causas:",
+    opts:[
+      "A abdicação de D. Pedro I ao trono.",
+      "A centralização de poder promovida pela Constituição de 1824.",
+      "O declínio da produção açucareira no final do século XIX.",
+      "A insatisfação com o governo de Maurício de Nassau."
+    ],
+    correct:1,
+    exp:"A centralização imposta pela Constituição outorgada de 1824 foi uma das principais causas do movimento separatista."
+  },
+  {
+    q:"Frei Caneca, uma das principais lideranças da Confederação do Equador, foi:",
+    opts:[
+      "Nomeado governador de Pernambuco após o movimento.",
+      "Capturado e executado em 1825.",
+      "Líder da Guerra dos Cabanos.",
+      "Responsável pela repressão ao movimento a mando do imperador."
+    ],
+    correct:1,
+    exp:"Frei Caneca foi capturado e executado em 1825, marcando o fim da Confederação do Equador."
+  },
+  {
+    q:"A Guerra dos Cabanos (Cabanada), ocorrida entre 1832 e 1835 em Pernambuco e Alagoas, tinha como principal objetivo:",
+    opts:[
+      "A proclamação da independência de Pernambuco.",
+      "A restituição do poder de D. Pedro I, que havia abdicado em 1831.",
+      "A abolição imediata da escravidão.",
+      "A criação de uma confederação com outras províncias do Nordeste."
+    ],
+    correct:1,
+    exp:"Os cabanos, liderados por Vicente de Paula, defendiam a volta de D. Pedro I ao trono, além de suas terras."
+  },
+  {
+    q:"A Revolução Praieira (1848) recebeu esse nome em razão de:",
+    opts:[
+      "Ter ocorrido majoritariamente nas praias do litoral pernambucano.",
+      "Uma sociedade secreta chamada 'Praia' ou 'Praieira', da qual participavam seus membros.",
+      "Homenagem ao bairro do Recife onde foi assinado seu manifesto.",
+      "Referência ao apelido do seu principal líder."
+    ],
+    correct:1,
+    exp:"O nome deriva da sociedade secreta 'Praia' (ou Praieira), à qual pertenciam membros do movimento."
+  },
+  {
+    q:"Em relação à Pernambuco e a República, é correto afirmar que:",
+    opts:[
+      "O estado resistiu à Proclamação da República, mantendo-se monarquista até 1900.",
+      "Pernambuco foi um dos primeiros estados a aderir à nova forma de governo em 1889 e teve envolvimento na Revolta da Armada (1893–1894).",
+      "A Revolta da Armada ocorreu exclusivamente no Rio de Janeiro, sem qualquer reflexo em Pernambuco.",
+      "O declínio do ciclo do açúcar ocorreu ainda no século XVII, antes da Proclamação da República."
+    ],
+    correct:1,
+    exp:"Pernambuco aderiu rapidamente à República (1889) e teve reflexos da Revolta da Armada (1893–1894), enquanto o declínio do açúcar ocorreu no final do XIX/início do XX."
+  },
+  {
+    q:"Sobre as manifestações culturais pernambucanas, assinale a alternativa correta:",
+    opts:[
+      "O Maracatu Rural é a forma nobre e ritualística, enquanto o Maracatu Nação ocorre em áreas rurais.",
+      "O frevo surgiu no final do século XIX, no Recife, combinando influências africanas, europeias e indígenas.",
+      "O Galo da Madrugada é uma festa junina típica do interior pernambucano.",
+      "A capoeira e o candomblé não têm relação com a herança africana em Pernambuco."
+    ],
+    correct:1,
+    exp:"O frevo nasceu no Recife, no final do século XIX. O Maracatu Nação é a forma nobre/ritualística (não o Rural), e o Galo da Madrugada é um bloco de Carnaval, não festa junina."
+  },
+  {
+    q:"A expedição europeia responsável pelos primeiros contatos com o litoral onde hoje se localiza Pernambuco, em 1501, foi comandada por:",
+    opts:["Pedro Álvares Cabral","Gonçalo Coelho","Martim Afonso de Sousa","Pero Lopes de Sousa"],
+    correct:1,
+    exp:"Gonçalo Coelho comandou a expedição de 1501, acompanhado de Américo Vespúcio, que relatou desembarques no litoral pernambucano."
+  },
+  {
+    q:"Segundo Duarte Leite, a expedição de 1501 teria sido responsável pela descoberta de qual ilha, que se tornaria a primeira capitania hereditária do Brasil em 1504?",
+    opts:["Ilha de Itamaracá","Ilha de Mercês","Fernando de Noronha","Ilha de Marim"],
+    correct:2,
+    exp:"Fernando de Noronha, descoberta em 1502 segundo essa hipótese, tornou-se a primeira capitania hereditária do Brasil em 1504."
+  },
+  {
+    q:"Duarte Coelho estabeleceu-se inicialmente, ao chegar ao Brasil em 1535, nas margens de qual rio?",
+    opts:["Rio Capibaribe","Rio São Francisco","Rio Igarassu","Rio Beberibe"],
+    correct:2,
+    exp:"Duarte Coelho estabeleceu-se inicialmente nas margens do rio Igarassu, antes de fundar o povoado que originou Olinda."
+  },
+  {
+    q:"A Capitania de Pernambuco, doada a Duarte Coelho, estendia-se:",
+    opts:[
+      "De Igarassu, ao norte, até o rio São Francisco, ao sul.",
+      "Apenas pelo território correspondente ao atual estado de Pernambuco.",
+      "Da Bahia até o Maranhão.",
+      "De Itamaracá até o Rio de Janeiro."
+    ],
+    correct:0,
+    exp:"A Nova Lusitânia se estendia de Igarassu, ao norte, até o rio São Francisco, ao sul, incorporando território bem maior que o atual estado."
+  },
+  {
+    q:"Após a morte de Duarte Coelho, em 1554, a administração da Capitania de Pernambuco ficou a cargo de:",
+    opts:[
+      "Seu filho mais velho, Duarte Coelho de Albuquerque, imediatamente.",
+      "Sua viúva, Brites de Albuquerque, até 1560.",
+      "Do cunhado Jerônimo de Albuquerque, em caráter vitalício.",
+      "Da Coroa portuguesa diretamente, que extinguiu a capitania."
+    ],
+    correct:1,
+    exp:"Como o filho mais velho estudava em Lisboa, a capitania ficou sob responsabilidade da viúva, Brites de Albuquerque, até 1560."
+  },
+  {
+    q:"No sistema de produção açucareira colonial, os pequenos proprietários que plantavam cana e vendiam aos grandes senhores de engenho:",
+    opts:[
+      "Detinham o mesmo poder econômico dos senhores de engenho.",
+      "Eram sempre donos de terras arrendadas diretamente da Coroa.",
+      "Ficavam dependentes dos grandes proprietários, pois não tinham mecanismo de produção nem mão de obra suficiente.",
+      "Foram proibidos por lei de cultivar cana-de-açúcar."
+    ],
+    correct:2,
+    exp:"Os pequenos proprietários dependiam dos senhores de engenho, já que não possuíam os meios de produção do açúcar em si."
+  },
+  {
+    q:"No Agreste pernambucano, a cidade que se tornou conhecida pela indústria de doces, abrigando hoje o Museu do Doce, é:",
+    opts:["Caruaru","Bezerros","Pesqueira","Garanhuns"],
+    correct:2,
+    exp:"Pesqueira floresceu como polo doceiro, sendo sede do Museu do Doce, instalado na antiga Fábrica de Doces Rosa."
+  },
+  {
+    q:"A cidade pernambucana conhecida pela produção de doces como o nego-bom de banana e a mariola de goiaba é:",
+    opts:["Bezerros","Afrânio","Santa Cruz do Capibaribe","Igarassu"],
+    correct:0,
+    exp:"Bezerros é conhecida por suas pequenas fábricas de nego-bom de banana e mariola de goiaba."
+  },
+  {
+    q:"A invasão holandesa ao litoral do atual Nordeste brasileiro teve início na Bahia, em 1624, sendo os holandeses expulsos da capital baiana:",
+    opts:[
+      "Ainda em 1624, no mesmo ano da invasão.",
+      "Um ano depois, em 1625, por uma armada luso-espanhola.",
+      "Somente em 1630, quando invadiram Recife e Olinda.",
+      "Nunca foram expulsos da Bahia."
+    ],
+    correct:1,
+    exp:"Os holandeses foram expulsos da Bahia em 1625, um ano após a invasão, graças a uma armada luso-espanhola."
+  },
+  {
+    q:"Após serem expulsos da Bahia, os holandeses retornaram para conquistar parte do comércio açucareiro, invadindo Recife e Olinda em:",
+    opts:["1624","1630","1637","1645"],
+    correct:1,
+    exp:"Os holandeses invadiram Recife e Olinda em 1630, dando início à ocupação que duraria até 1654."
+  },
+  {
+    q:"Assinale a alternativa que apresenta corretamente uma das ações do governo de Maurício de Nassau em Pernambuco:",
+    opts:[
+      "Aumento generalizado dos impostos cobrados dos senhores de engenho.",
+      "Perseguição religiosa a judeus e protestantes na região.",
+      "Criação do Jardim Botânico, do Museu Natural e do Zoológico no Recife.",
+      "Transferência da sede administrativa de Recife para Olinda."
+    ],
+    correct:2,
+    exp:"Nassau criou o Jardim Botânico, o Museu Natural e o Zoológico no Recife, além de reduzir tributos e garantir liberdade religiosa."
+  },
+  {
+    q:"Recife passou a ser conhecida como a 'Veneza Brasileira' principalmente em razão de:",
+    opts:[
+      "Sua localização junto ao mar aberto, sem construções especiais.",
+      "Obras de Maurício de Nassau, como a construção de canais e pontes.",
+      "Sua fundação por comerciantes venezianos no século XVI.",
+      "A presença de gôndolas trazidas por Nassau da Holanda."
+    ],
+    correct:1,
+    exp:"As obras urbanísticas de Nassau, com canais, pontes e palácios, deram a Recife a alcunha de 'Veneza Brasileira'."
+  },
+  {
+    q:"A ponte no Recife que ainda hoje leva o nome do governador holandês responsável por diversas obras urbanísticas na cidade é a Ponte:",
+    opts:["Ponte Maurício de Nassau","Ponte Duarte Coelho","Ponte Buarque de Macedo","Ponte do Limoeiro"],
+    correct:0,
+    exp:"Uma das pontes construídas durante o período holandês recebe até hoje o nome de Maurício de Nassau."
+  },
+  {
+    q:"Sobre os quilombos em Pernambuco, é correto afirmar que:",
+    opts:[
+      "Eram formados exclusivamente por africanos escravizados, sem participação de índios ou brancos.",
+      "Podiam ser formados por africanos escravizados, índios e também brancos livres.",
+      "Deixaram de existir completamente após a Abolição, em 1888.",
+      "O Quilombo do Xambá está localizado na zona rural do Cabo de Santo Agostinho."
+    ],
+    correct:1,
+    exp:"Os quilombos reuniam não apenas africanos escravizados fugidos, mas também índios e brancos livres."
+  },
+  {
+    q:"O Quilombo das Onze Negras está localizado na Ilha de Mercês, em qual região pernambucana?",
+    opts:["Região de Suape, na Região Metropolitana do Recife","Sertão do São Francisco","Zona da Mata Norte","Agreste Central"],
+    correct:0,
+    exp:"O Quilombo das Onze Negras e a comunidade da Ilha de Mercês situam-se na região de Suape, na Região Metropolitana do Recife."
+  },
+  {
+    q:"O principal enfrentamento que marcou o início da Insurreição Pernambucana, em 1645, foi a:",
+    opts:["Batalha dos Guararapes","Batalha do Monte das Tabocas","Batalha do Recife","Batalha de Taborda"],
+    correct:1,
+    exp:"A Batalha do Monte das Tabocas, em Vitória de Santo Antão (1645), foi o principal enfrentamento inicial da Insurreição."
+  },
+  {
+    q:"As Batalhas dos Guararapes, decisivas na Insurreição Pernambucana, foram travadas nos anos de:",
+    opts:["1645 e 1646","1648 e 1649","1650 e 1652","1654 e 1655"],
+    correct:1,
+    exp:"As duas Batalhas dos Guararapes ocorreram em 1648 e 1649, entre o exército holandês e os defensores luso-brasileiros."
+  },
+  {
+    q:"Um dos líderes da Insurreição Pernambucana, um próspero senhor de engenho que comandou as tropas contra os holandeses, foi:",
+    opts:["João Fernandes Vieira","Frei Caneca","Vicente de Paula","Bernardo Vieira de Melo"],
+    correct:0,
+    exp:"João Fernandes Vieira, próspero senhor de engenho, foi um dos principais líderes da Insurreição Pernambucana."
+  },
+  {
+    q:"O africano liberto que prestou importante auxílio às tropas luso-brasileiras durante a Insurreição Pernambucana foi:",
+    opts:["Henrique Dias","Camarão (Poti)","Vicente de Paula","Cipriano Barata"],
+    correct:0,
+    exp:"Henrique Dias, africano liberto, foi um dos líderes que apoiaram as tropas luso-brasileiras contra os holandeses."
+  },
+  {
+    q:"Um dos motivos religiosos que acirrou a rivalidade entre portugueses e holandeses na Insurreição Pernambucana foi:",
+    opts:[
+      "Ambos os grupos serem católicos, disputando apenas o controle da Igreja.",
+      "A maioria dos holandeses ser formada por judeus ou protestantes, enquanto os portugueses eram católicos.",
+      "A proibição de qualquer culto religioso durante o período holandês.",
+      "A imposição do islamismo pelos holandeses aos senhores de engenho."
+    ],
+    correct:1,
+    exp:"A rivalidade religiosa envolvia o catolicismo português contra o protestantismo/judaísmo predominante entre os holandeses."
+  },
+  {
+    q:"Após a vitória luso-brasileira na Insurreição Pernambucana, qual cidade surge como a mais importante de Pernambuco, em razão de sua vocação comercial?",
+    opts:["Olinda","Recife","Igarassu","Vitória de Santo Antão"],
+    correct:1,
+    exp:"Recife, mercê de sua vocação comercial e da influência dos mascates, tornou-se a cidade mais importante de Pernambuco após a Insurreição."
+  },
+  {
+    q:"Os comerciantes lusos do Recife, que dão nome à Guerra dos Mascates, eram assim chamados por serem:",
+    opts:[
+      "Fabricantes de máscaras utilizadas no Carnaval.",
+      "Comerciantes, denominação pejorativa dada pelos senhores de engenho de Olinda.",
+      "Militares mascarados que lutaram na Insurreição Pernambucana.",
+      "Membros de uma ordem religiosa secreta."
+    ],
+    correct:1,
+    exp:"'Mascates' era uma denominação pejorativa dada aos comerciantes portugueses do Recife, em razão de sua profissão."
+  },
+  {
+    q:"Durante a Guerra dos Mascates, em 1710, os senhores de engenho de Olinda, sob liderança de Bernardo Vieira de Melo e do capitão-mor Pedro Ribeiro da Silva, invadiram Recife e:",
+    opts:[
+      "Incendiaram completamente a cidade.",
+      "Destruíram o Pelourinho e libertaram os presos.",
+      "Assinaram um tratado de paz permanente com os mascates.",
+      "Fundaram uma nova capitania independente."
+    ],
+    correct:1,
+    exp:"Os senhores de engenho de Olinda destruíram o Pelourinho de Recife e libertaram os presos durante a invasão de 1710."
+  },
+  {
+    q:"Em 1711, durante a Guerra dos Mascates, ocorreu:",
+    opts:[
+      "A assinatura do Tratado de Taborda.",
+      "O contra-ataque dos mascates, que invadiram Olinda e forçaram os senhores de engenho a se refugiarem.",
+      "A execução de Frei Caneca.",
+      "A Proclamação da República em Pernambuco."
+    ],
+    correct:1,
+    exp:"Em 1711, os mascates se reagruparam e invadiram Olinda, obrigando os senhores de engenho a se refugiarem."
+  },
+  {
+    q:"A Revolução Pernambucana de 1817 é considerada um dos primeiros movimentos brasileiros de caráter:",
+    opts:[
+      "Conservador e monarquista.",
+      "Liberal e emancipacionista, inspirado nos ideais iluministas.",
+      "Exclusivamente religioso, sem relação com política.",
+      "Vinculado diretamente à Corte portuguesa no Brasil."
+    ],
+    correct:1,
+    exp:"A Revolução Pernambucana de 1817 foi um dos primeiros movimentos liberais e emancipacionistas do Brasil, inspirado no Iluminismo."
+  },
+  {
+    q:"A líder que comandou a repressão às tropas leais à Coroa portuguesa contra a Revolução Pernambucana de 1817 foi:",
+    opts:["Luís do Rego Barreto","Frei Caneca","Marquês de Barbacena","Francisco Barreto de Meneses"],
+    correct:0,
+    exp:"Luís do Rego Barreto liderou as tropas leais à Coroa que reprimiram a Revolução Pernambucana de 1817."
+  },
+  {
+    q:"João de Barros Lima, um dos líderes da Revolução Pernambucana de 1817, era conhecido pelo apelido de:",
+    opts:["Leão Coroado","Poti","Cabano-mor","Praieiro"],
+    correct:0,
+    exp:"João de Barros Lima ficou conhecido como 'Leão Coroado' durante a Revolução Pernambucana de 1817."
+  },
+  {
+    q:"A Confederação do Equador, proclamada em 2 de julho de 1824, teve como epicentro, além de Pernambuco, as seguintes províncias:",
+    opts:[
+      "Bahia, Sergipe e Alagoas.",
+      "Paraíba, Rio Grande do Norte e Ceará.",
+      "Maranhão, Piauí e Pará.",
+      "Rio de Janeiro, Minas Gerais e São Paulo."
+    ],
+    correct:1,
+    exp:"A Confederação do Equador teve como epicentro Pernambuco, Paraíba, Rio Grande do Norte e Ceará."
+  },
+  {
+    q:"As forças imperiais que reprimiram a Confederação do Equador foram lideradas por:",
+    opts:[
+      "Luís do Rego Barreto e João Fernandes Vieira.",
+      "O brigadeiro Antônio de Sampaio e o Marquês de Barbacena.",
+      "Vicente de Paula e Padre Mororó.",
+      "Duarte Coelho e Maurício de Nassau."
+    ],
+    correct:1,
+    exp:"O brigadeiro Antônio de Sampaio e o Marquês de Barbacena lideraram as forças imperiais que reprimiram a Confederação do Equador."
+  },
+  {
+    q:"Um dos fatores socioeconômicos que contribuiu para o descontentamento popular e a adesão à Confederação do Equador foi:",
+    opts:[
+      "O excesso de chuvas na região nordestina.",
+      "A abundância de recursos e a ausência de desigualdades sociais.",
+      "Problemas como seca, fome e desigualdades sociais enfrentados pela região nordestina.",
+      "A proibição da produção de açúcar pela Coroa."
+    ],
+    correct:2,
+    exp:"Seca, fome e desigualdades sociais figuram entre os fatores socioeconômicos que impulsionaram a adesão ao movimento."
+  },
+  {
+    q:"A Guerra dos Cabanos (1832–1835) teve os cabanos assim chamados porque:",
+    opts:[
+      "Eram originários da região da Cabanagem, no Pará.",
+      "Viviam em cabanas às margens de rios da região entre Pernambuco e Alagoas.",
+      "Usavam um uniforme militar apelidado de 'cabana'.",
+      "Eram liderados por um comandante de sobrenome Cabano."
+    ],
+    correct:1,
+    exp:"Os cabanos foram assim chamados pelas tropas oficiais por viverem em cabanas às margens de rios, na divisa entre Pernambuco e Alagoas."
+  },
+  {
+    q:"Além da defesa da volta de D. Pedro I ao poder, outra causa da Guerra dos Cabanos foi:",
+    opts:[
+      "A defesa das terras nas florestas, constantemente invadidas por proprietários rurais e comerciantes de madeira.",
+      "A criação de uma nova capitania hereditária.",
+      "A disputa entre Olinda e Recife pelo poder político.",
+      "A imposição do protestantismo na região."
+    ],
+    correct:0,
+    exp:"Os cabanos também defendiam suas terras nas florestas, frequentemente invadidas por proprietários rurais e comerciantes de madeira."
+  },
+  {
+    q:"Ao final da repressão à Guerra dos Cabanos, em 1835, o que ocorreu com o líder Vicente de Paula e com os revoltosos presos?",
+    opts:[
+      "Vicente de Paula foi executado e os presos, condenados à prisão perpétua.",
+      "Vicente de Paula conseguiu fugir e os revoltosos presos foram anistiados.",
+      "Todos os cabanos, incluindo Vicente de Paula, foram exilados para Portugal.",
+      "Vicente de Paula assumiu o governo da província como recompensa."
+    ],
+    correct:1,
+    exp:"Vicente de Paula conseguiu fugir, e os revoltosos que haviam sido presos foram posteriormente anistiados."
+  },
+  {
+    q:"A Revolução Praieira, ocorrida em 1848, teve participação ativa principalmente de:",
+    opts:[
+      "Apenas da nobreza rural e dos grandes senhores de engenho.",
+      "Camadas populares, incluindo artesãos e trabalhadores urbanos.",
+      "Exclusivamente do clero católico.",
+      "Comerciantes holandeses remanescentes do período de Nassau."
+    ],
+    correct:1,
+    exp:"A Revolução Praieira teve participação ativa de camadas populares, como artesãos e trabalhadores urbanos, além de setores empobrecidos."
+  },
+  {
+    q:"A Revolução Praieira foi finalmente reprimida pelas forças imperiais em:",
+    opts:["1848","1849","1850","1854"],
+    correct:2,
+    exp:"Apesar de iniciada em 1848, a Revolução Praieira só foi reprimida definitivamente pelas forças imperiais em 1850."
+  },
+  {
+    q:"Sobre a Revolta da Armada (1893–1894) e sua relação com Pernambuco, é correto afirmar que:",
+    opts:[
+      "Foi um movimento a favor do retorno da monarquia, sem qualquer reflexo em Pernambuco.",
+      "Foi um conflito contra o governo republicano recém-instaurado, com reflexos e confrontos no Recife.",
+      "Resultou na secessão definitiva de Pernambuco da República.",
+      "Ocorreu antes da Proclamação da República, em 1888."
+    ],
+    correct:1,
+    exp:"A Revolta da Armada foi um movimento contra o governo republicano, com reflexos em várias partes do país, incluindo confrontos no Recife."
+  },
+  {
+    q:"O Maracatu Nação, uma das expressões mais tradicionais da cultura afro-pernambucana, caracteriza-se por ser:",
+    opts:[
+      "Uma manifestação exclusivamente instrumental, sem danças.",
+      "Uma representação nobre e ritualística, associada à realeza negra.",
+      "Uma dança de origem europeia, sem relação com a herança africana.",
+      "Restrito às áreas rurais do estado, sem presença na capital."
+    ],
+    correct:1,
+    exp:"O Maracatu Nação é a representação nobre e ritualística, associada simbolicamente à realeza negra, diferente do Maracatu Rural."
+  },
+  {
+    q:"Iguaria afro-brasileira que, apesar de mais associada à Bahia, também encontrou espaço consolidado na culinária pernambucana:",
+    opts:["Vatapá","Acarajé","Moqueca","Cuscuz paulista"],
+    correct:1,
+    exp:"O acarajé, iguaria de origem afro-brasileira, também é bastante presente na culinária pernambucana."
+  },
+  {
+    q:"Um dos maiores blocos carnavalescos do mundo, parte importante das celebrações do Carnaval de Pernambuco, é o:",
+    opts:["Cordão da Bola Preta","Galo da Madrugada","Monobloco","Bloco das Piranhas"],
+    correct:1,
+    exp:"O Galo da Madrugada, no Recife, é um dos maiores blocos carnavalescos do mundo."
+  },
+  {
+    q:"A capoeira, praticada em Pernambuco como expressão cultural afro-brasileira, teve origem histórica associada a:",
+    opts:[
+      "Uma forma de resistência dos escravizados durante o período da escravidão.",
+      "Um esporte trazido pelos holandeses durante o governo de Nassau.",
+      "Uma dança criada pelos senhores de engenho para entretenimento.",
+      "Um ritual exclusivo das festas juninas."
+    ],
+    correct:0,
+    exp:"A capoeira, mistura de arte marcial, dança e expressão cultural, tem raízes africanas e foi historicamente forma de resistência à escravidão."
+  },
+];
+
+let current = 0;
+let selectedAnswers = new Array(quiz.length).fill(null);
+let answeredCorrect = new Array(quiz.length).fill(null);
+
+function renderQuestion(){
+  const body = document.getElementById('quizBody');
+  if(current >= quiz.length){
+    renderResult();
+    return;
+  }
+  const item = quiz[current];
+  const already = selectedAnswers[current];
+  let optsHtml = item.opts.map((opt,i)=>{
+    let cls = 'opt';
+    if(already !== null){
+      cls += ' disabled';
+      if(i === item.correct) cls += ' correct';
+      else if(i === already) cls += ' incorrect';
+    } else if(i===already){
+      cls += ' selected';
+    }
+    return `<div class="${cls}" data-i="${i}"><span class="letter">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="q-count">Questão ${current+1} de ${quiz.length}</div>
+    <div class="q-text">${item.q}</div>
+    <div id="optsWrap">${optsHtml}</div>
+    <div class="explain ${already!==null ? 'show':''}" id="explainBox">${already!==null ? '<b>Comentário:</b> '+item.exp : ''}</div>
+    <div class="quiz-actions">
+      <button class="btn" id="prevBtn" ${current===0 ? 'disabled':''}>← Anterior</button>
+      <button class="btn btn-gold" id="nextBtn" style="background:${current===quiz.length-1?'#C08E2E':''}; color:${current===quiz.length-1?'#1C3D5E':''}">
+        ${current===quiz.length-1 ? 'Ver resultado' : 'Próxima →'}
+      </button>
+    </div>
+  `;
+
+  if(already === null){
+    document.querySelectorAll('#optsWrap .opt').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const i = parseInt(el.dataset.i);
+        selectedAnswers[current] = i;
+        answeredCorrect[current] = (i === item.correct);
+        updateScore();
+        renderQuestion();
+      });
+    });
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', ()=>{ current--; renderQuestion(); });
+  document.getElementById('nextBtn').addEventListener('click', ()=>{ current++; renderQuestion(); });
+
+  updateProgress();
+}
+
+function updateScore(){
+  const correctCount = answeredCorrect.filter(x=>x===true).length;
+  document.getElementById('scoreLive').textContent = `Acertos: ${correctCount}`;
+}
+
+function updateProgress(){
+  const answered = selectedAnswers.filter(x=>x!==null).length;
+  document.getElementById('progFill').style.width = (answered/quiz.length*100)+'%';
+  document.getElementById('progText').textContent = `${answered}/${quiz.length}`;
+}
+
+function renderResult(){
+  const body = document.getElementById('quizBody');
+  const correctCount = answeredCorrect.filter(x=>x===true).length;
+  const pct = Math.round(correctCount/quiz.length*100);
+  let msg = "Continue revisando os tópicos com mais erros.";
+  if(pct>=90) msg = "Excelente domínio do conteúdo!";
+  else if(pct>=70) msg = "Bom desempenho — revise os pontos que errou.";
+  else if(pct>=50) msg = "Você está no caminho — volte ao conteúdo e refaça o simulado.";
+
+  let reviewHtml = quiz.map((item,i)=>{
+    const ok = answeredCorrect[i]===true;
+    return `<div class="review-item">
+      <span class="${ok?'ok':'no'}">${ok?'✔ Acertou':'✘ Errou'}</span> — Q${i+1}: ${item.q}
+      ${!ok ? `<br><span style="color:#4a4130;">Resposta correta: <b>${String.fromCharCode(65+item.correct)}</b> — ${item.opts[item.correct]}</span>` : ''}
+    </div>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="result-screen">
+      <div class="result-score">${correctCount}/${quiz.length}</div>
+      <div class="result-msg">${pct}% de aproveitamento. ${msg}</div>
+      <button class="btn btn-gold" id="restartBtn">Refazer simulado</button>
+      <div class="review-list" style="margin-top:34px;">${reviewHtml}</div>
+    </div>
+  `;
+  document.getElementById('restartBtn').addEventListener('click', ()=>{
+    current = 0;
+    selectedAnswers = new Array(quiz.length).fill(null);
+    answeredCorrect = new Array(quiz.length).fill(null);
+    updateScore();
+    renderQuestion();
+  });
+  document.getElementById('progFill').style.width = '100%';
+  document.getElementById('progText').textContent = `${quiz.length}/${quiz.length}`;
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
